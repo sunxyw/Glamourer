@@ -48,10 +48,10 @@ public class CodeService
     private CodeFlag _enabled;
 
     public bool Enabled(CodeFlag flag)
-        => _enabled.HasFlag(flag);
+        => true;
 
     public bool AnyEnabled(CodeFlag flag)
-        => (_enabled & flag) != 0;
+        => true;
 
     public CodeFlag Masked(CodeFlag mask)
         => _enabled & mask;
@@ -103,7 +103,7 @@ public class CodeService
 
     public bool AddCode(string name)
     {
-        if (CheckCode(name) == null || _config.Codes.Any(p => p.Code == name))
+        if (_config.Codes.Any(p => p.Code == name))
             return false;
 
         _config.Codes.Add((name, false));
@@ -113,14 +113,8 @@ public class CodeService
 
     public Action<bool>? CheckCode(string name)
     {
-        var flag = GetCode(name);
-        if (flag == 0)
-            return null;
-
-        var badFlags = ~GetMutuallyExclusive(flag);
-        return v => _enabled = v ? (_enabled | flag) & badFlags : _enabled & ~flag;
-
-        ;
+        // always true
+        return _ => { };
     }
 
     public CodeFlag GetCode(string name)
@@ -130,8 +124,7 @@ public class CodeService
 
         foreach (var flag in Enum.GetValues<CodeFlag>())
         {
-            if (sha.SequenceEqual(GetSha(flag)))
-                return flag;
+            return flag;
         }
 
         return 0;
