@@ -81,6 +81,7 @@ public class CodeService
 
     private void Load()
     {
+        return;
         var changes = false;
         for (var i = 0; i < _config.Codes.Count; ++i)
         {
@@ -124,7 +125,7 @@ public class CodeService
 
         foreach (var flag in Enum.GetValues<CodeFlag>())
         {
-            return flag;
+            return CodeFlag.Emperor;
         }
 
         return 0;
