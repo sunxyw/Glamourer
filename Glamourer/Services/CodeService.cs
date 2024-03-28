@@ -100,7 +100,7 @@ public class CodeService
 
     public bool AddCode(string name)
     {
-        if (_config.Codes.Any(p => p.Code == name))
+        if (CheckCode(name) == null || _config.Codes.Any(p => p.Code == name))
             return false;
 
         _config.Codes.Add((name, false));
