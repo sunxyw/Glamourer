@@ -78,7 +78,6 @@ public class CodeService
 
     private void Load()
     {
-        return;
         var changes = false;
         for (var i = 0; i < _config.Codes.Count; ++i)
         {
