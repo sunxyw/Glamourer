@@ -74,6 +74,9 @@ public class CodeService
     {
         _config = config;
         Load();
+        _enabled = Enum.GetValues(typeof(CodeFlag))
+                   .Cast<CodeFlag>()
+                   .Aggregate((current, flag) => current | flag);
     }
 
     private void Load()
