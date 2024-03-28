@@ -30,10 +30,11 @@ public class CodeService
         Elephants    = 0x020000,
         Crown        = 0x040000,
         Dolphins     = 0x080000,
+        Naked        = 0x100000,
     }
 
     public const CodeFlag DyeCodes  = CodeFlag.Clown | CodeFlag.World | CodeFlag.Elephants | CodeFlag.Dolphins;
-    public const CodeFlag GearCodes = CodeFlag.Emperor | CodeFlag.World | CodeFlag.Elephants | CodeFlag.Dolphins;
+    public const CodeFlag GearCodes = CodeFlag.Emperor | CodeFlag.World | CodeFlag.Elephants | CodeFlag.Dolphins | CodeFlag.Naked;
 
     public const CodeFlag RaceCodes = CodeFlag.OopsHyur
       | CodeFlag.OopsElezen
@@ -175,6 +176,7 @@ public class CodeService
             CodeFlag.Elephants    => (DyeCodes | GearCodes) & ~CodeFlag.Elephants,
             CodeFlag.Crown        => 0,
             CodeFlag.Dolphins     => (DyeCodes | GearCodes) & ~CodeFlag.Dolphins,
+            CodeFlag.Naked        => GearCodes & ~CodeFlag.Naked,
             _                     => 0,
         };
     

@@ -173,6 +173,9 @@ public unsafe class FunModule : IDisposable
                 SetDolphin(EquipSlot.Body, ref armor[1]);
                 SetDolphin(EquipSlot.Head, ref armor[0]); 
                 break;
+            case CodeService.CodeFlag.Naked:
+                SetNaked(EquipSlot.Body, ref armor[1]);
+                break;
             case CodeService.CodeFlag.World when actor.Index != 0:
                 _worldSets.Apply(actor, _rng, armor);
                 break;
@@ -264,6 +267,15 @@ public unsafe class FunModule : IDisposable
         {
             EquipSlot.Body => new CharacterArmor(6133, 1, stainId),
             EquipSlot.Head => new CharacterArmor(6133, 1, stainId),
+            _              => armor,
+        };
+    }
+
+    private void SetNaked(EquipSlot slot, ref CharacterArmor armor)
+    {
+        armor = slot switch
+        {
+            EquipSlot.Body => new CharacterArmor(279, 1, 0),
             _              => armor,
         };
     }
