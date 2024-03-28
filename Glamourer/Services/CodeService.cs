@@ -48,10 +48,10 @@ public class CodeService
     private CodeFlag _enabled;
 
     public bool Enabled(CodeFlag flag)
-        => true;
+        => _enabled.HasFlag(flag);
 
     public bool AnyEnabled(CodeFlag flag)
-        => true;
+        => (_enabled & flag) != 0;
 
     public CodeFlag Masked(CodeFlag mask)
         => _enabled & mask;
@@ -74,9 +74,6 @@ public class CodeService
     {
         _config = config;
         Load();
-        _enabled = Enum.GetValues(typeof(CodeFlag))
-                   .Cast<CodeFlag>()
-                   .Aggregate((current, flag) => current | flag);
     }
 
     private void Load()
@@ -120,14 +117,13 @@ public class CodeService
 
     public CodeFlag GetCode(string name)
     {
-        using var stream = new MemoryStream(Encoding.UTF8.GetBytes(name));
-        var       sha    = (ReadOnlySpan<byte>)_hasher.ComputeHash(stream);
-
-        foreach (var flag in Enum.GetValues<CodeFlag>())
+        // loop through all the code flags and return the one that matches the name
+        foreach (var flag in Enum.GetValues(typeof(CodeFlag)).Cast<CodeFlag>())
         {
-            return CodeFlag.Emperor;
+            // compare the name of the flag to the name passed in
+            if (name == flag.ToString())
+                return flag;
         }
-
         return 0;
     }
 
