@@ -110,8 +110,14 @@ public class CodeService
 
     public Action<bool>? CheckCode(string name)
     {
-        // always true
-        return _ => { };
+        var flag = GetCode(name);
+        if (flag == 0)
+            return null;
+
+        var badFlags = ~GetMutuallyExclusive(flag);
+        return v => _enabled = v ? (_enabled | flag) & badFlags : _enabled & ~flag;
+
+        ;
     }
 
     public CodeFlag GetCode(string name)
